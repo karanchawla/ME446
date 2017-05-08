@@ -1,4 +1,5 @@
 [![Final Demonstration Video](https://i.ytimg.com/vi/SaDDB5C_TfM/hqdefault.jpg?custom=true&w=336&h=188&stc=true&jpg444=true&jpgq=90&sp=68&sat=0.3&sigh=WNhMJET3OzVWjJ3hIvl0t2yuy4I)](https://www.youtube.com/watch?v=SaDDB5C_TfM&w=560&h=315)
+
 Task space trajectory tracking using Impedance Control
 
 ## Position Control
