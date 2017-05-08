@@ -179,11 +179,6 @@ float thetamotor[3] = {0,0,0};
 // Motor omegas calculated using the filter function
 float thetamotor_dot[3] = {0,0,0};
 
-
-/*
- The code above mainly initialize the global parameters we need to use in the next code
-*/
-
 /*
 Inputs: Pointer to Filter struct for storing the filter parameters and variable for which velocity needs to be calculated
 Return: Filtered velocity for the axis
@@ -202,10 +197,6 @@ static inline float Filter(vel_filter_axis* vel_filter_axis, float value )
 
 	return vel_filter_axis->vel;																																										 //Output the angular velocity after Filtered
 }
-
-/*
-This structure creates a filter to calculate the smoothed angular velocity by averaging the previous three instant angular velocity. Therefore, the extreme high angular velocity can be avoided.
-*/
 
 //Inverse kinematics for the robot arm
 /*
@@ -228,10 +219,6 @@ void invKinematics(float x, float y, float z, float* thetas)
 	thetas[1] = q2;
 	thetas[2] = q3;
 }
-/*
-This function calculates the machine angles of each joints according to the provided position of end effector, in elbow-up position
-*/
-
 
 /*
 Inputs: Takes void as the input as all variables used by the function are global
@@ -243,15 +230,11 @@ static inline void forwardKinematics(void)
 	y = 10 * sinq1 * (cosq3+sinq2);
 	z = 10 * (1 + cosq2 - sinq3);
 }
-/*
-This function calculates the position of end effector according to the joint angles.
-*/
 
 /*
 Inputs: Takes void as the input as all variables used by the function are global
 Return: Returns void as this function off loads the computation from main controller function
 */
-
 static inline void controllerUtility(void)
 {
 	cosz = cos(thetaz);																																															//Pre-Calculate the values of cos(z), sin(z), cos(x), sin(x), cos(y) and sin(y) to improve the efficiency for next calculations
@@ -301,17 +284,9 @@ static inline void controllerUtility(void)
 }
 
 /*
-This structure calculates the jacobians and Rotation Matrix first. Calculate the error of position and the error of velocity in all directions. Finally, using the PID control to control the torque at each joints.
-*/
-
-
-
-
-/*
 Inputs: Char for the joint and the angular velocity of the motor which is computed by the vel_filter function every 1ms in the lab function
 Return: Returns the computed torque that needs to be applied to each motor
 */
-
 static inline float Controller(char joint, float thetamotor_dot)
 {
 	float tau = 0;
@@ -371,12 +346,9 @@ static inline float Controller(char joint, float thetamotor_dot)
 		return tau;
 }
 
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-											//Project Implementation
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+					//Project Implementation
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifndef ALLSTIFF
 #define ALLSTIFF 1
 #endif
@@ -409,7 +381,6 @@ typedef struct pos
 #define NORM 5
 #define FAST 11
 
-
 #define HOLEX 1.19
 #define HOLEY 12.8
 
@@ -440,8 +411,7 @@ typedef struct pos
 //Defining the trajectory for the whole problem
 #define WAYPOINTS 22
 position_world pos[WAYPOINTS]={
-		//{5.52, 0, 16.61, ALLSTIFF ,0 , FAST+6}, //Home
-		{7.35, 8.57, 12.8, ALLSTIFF ,0 , FAST+6},
+		{7.35, 8.57, 12.8, ALLSTIFF ,0 , FAST+6},//Home
 		{HOLEX, HOLEY, 7.5, ALLSTIFF , 0 , 9},
 		{HOLEX, HOLEY, 5.1, ZSTIFF , 0 , 0},
 		{HOLEX, HOLEY, 10, ZSTIFF , 0 , FAST+3},
@@ -458,10 +428,8 @@ position_world pos[WAYPOINTS]={
 		{11.55, 1.51, ZZDEPTH, YSTIFF, 22.7*PI/180, SLOW},
 		{LINE3START_X, LINE3START_Y, ZZDEPTH, YSTIFF, LINE3ROT, SLOW},
 		{LINE3END_X, LINE3END_Y, ZZDEPTH, YSTIFF, 0, FAST},
-//		{EGG_X, LINE3END_Y, EGG_UP+1, ALLSTIFF, 0, FAST},
 		{EGG_X, EGG_Y, EGG_UP+1, ALLSTIFF, 0, FAST},
 		{EGG_X, EGG_Y, EGG_UP, EGG, 0, FAST},
-		//{EGG_X, EGG_Y, EGG_DOWN, EGG, 0, 0.1},
 		{EGG_X, EGG_Y, EGG_DOWN, EGG, 0, 0},
 		{EGG_X, EGG_Y, EGG_DOWN, ALLSTIFF, 0, FAST},
 		{5.52, 0, 16.61, ALLSTIFF ,0 , 0}
@@ -471,8 +439,6 @@ int i = 0;
 float vel = 0;
 float vel_high = 20;
 float vel_low = 18;
-//float vel_high = 3;
-//float vel_low = 2;
 float egg_punch_vel = 0.8;
 float factor = 0;
 
@@ -565,14 +531,9 @@ float xb = 0;
 float yb = 0;
 float zb = 0;
 
-
-/*
-This structure calculates the final torque of the joints. Taking the friction into consideration to decrease the error. The parameter tuneJoint2 is used to reduce the influence of additional torque at joint 2 which used to counter friction
-*/
-
 // This function is called every 1 ms
 /*
-the main function refreshes motor angular velocity and all auxillary and trigonometry definitions for impedence control that relates to motor angles or motor angular velocities.
+The main function refreshes motor angular velocity and all auxillary and trigonometry definitions for impedence control that relates to motor angles or motor angular velocities.
 Then a straight line following section is implemented enabling the end effector to track back and forth between one point to another in 3D space, which is done basically by defining desired motor angles and velocties every 1ms.
 Lastly we call controller and controllerUtility to implement impedence control. While the roboti arm is performing straight line following, its rotation matrix and PD gains can be tuned to reach various impedence settings, which
 is an ideal method for future line following challenges.
@@ -697,12 +658,8 @@ void lab(float theta1motor, float theta2motor, float theta3motor, float *tau1, f
 	}
 
 	mycount++;
-
-
 }
 
 void printing(void){
 	serial_printf(&SerialA, "%.2f %.2f %.2f \n\r",x,y,z);
 }
-
-
