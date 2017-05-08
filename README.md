@@ -21,9 +21,9 @@ ___
 For the whole task is a group of action and we need to avoid the obstacle in the second task, an effective path can finish this whole task successfully. In our group, a group of key points is obtained for designing the path. The key points of the first task are the point above the hole. From the point above the hole to the starting point of the zigzag groove, two more points are designed to avoid the obstacle. In the zigzag, each starting points and end points of the lines are key points and two more points on the curve are also the key points. Finally, the point above the egg is the last key point. Connecting these keypoints by line to form the whole path of the task
 
 ### Project Source
-The project code can be downloaded [here](https://github.com/karanchawla/theDumbRobotArm/blob/master/finalCode.c) 
+The project code can be downloaded [here.](https://github.com/karanchawla/theDumbRobotArm/blob/master/finalCode.c) 
 
-___
+________
 
 
 ## About Team
