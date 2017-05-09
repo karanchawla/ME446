@@ -15,14 +15,14 @@ position in the DH frame, as a group of angles at each joint. These joints form 
 ## Impedance Control
 ___
 The impedance control allows the end effector of the robot to move slightly in one direction. To realize it, decreasing the `K_p` and `K_d` gain of one direction in the Task Space PD controller. For an arbitary direction, we first transfer this direction to one axis by the rotational matrix and then applying the matrix to the original `K_p` and `K_d` gain. Decreasing the value of the `K_p` and `K_d` of that direction and using the transpose of the previous rotational matrix to obtain the final `K_p` and `K_d` gain we need. In this final project, the Peg in a hole and Zigzag Groove task need this technique to smooth the whole process. In the Zigzag Groove task, the path direction is fixed and the direction perpendicular to the aim direction can be moved slightly so that this end-effector can pass the corner smoothly.
-![](https://github.com/karanchawla/TheDumbRobotArm/blob/master/control.PNG)
+![](https://github.com/karanchawla/TheDumbRobotArm/control.PNG)
 
 ## Path Planning
 ___
 For the whole task is a group of action and we need to avoid the obstacle in the second task, an effective path can finish this whole task successfully. In our group, a group of key points is obtained for designing the path. The key points of the first task are the point above the hole. From the point above the hole to the starting point of the zigzag groove, two more points are designed to avoid the obstacle. In the zigzag, each starting points and end points of the lines are key points and two more points on the curve are also the key points. Finally, the point above the egg is the last key point. Connecting these keypoints by line to form the whole path of the task.
 
-![](https://github.com/karanchawla/TheDumbRobotArm/blob/master/line.PNG)
-![](https://github.com/karanchawla/TheDumbRobotArm/blob/master/traj.PNG)
+![](https://github.com/karanchawla/TheDumbRobotArm/line.PNG)
+![](https://github.com/karanchawla/TheDumbRobotArm/traj.PNG)
 
 ### Project Source
 The project code can be downloaded [here.](https://github.com/karanchawla/theDumbRobotArm/blob/master/finalCode.c) 
