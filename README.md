@@ -36,7 +36,7 @@ The project code can be downloaded [here.](https://github.com/karanchawla/theDum
 **The Team Photo with Prof. Daniel Block**
 </div>
 
-| Group Members |               |
+| **Group Members** |               |
 | ------------- | ------------- |
 | Karan Chawla  |  Zhaoer Li    |
 | Zhicaho Zhang |               |
