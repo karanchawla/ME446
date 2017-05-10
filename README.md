@@ -3,9 +3,6 @@
 
 **Task space trajectory tracking using Impedance Control**
 </div>
- <iframe width="420" height="315"
-src="https://www.youtube.com/watch?v=SaDDB5C_TfM&w=560&h=315autoplay=1">
-</iframe> 
 
 ## Position Control
 ___
