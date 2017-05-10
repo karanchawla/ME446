@@ -1,7 +1,8 @@
 <div style="text-align:center" markdown="1">
 [![Final Demonstration Video](https://i.ytimg.com/vi/SaDDB5C_TfM/hqdefault.jpg?custom=true&w=336&h=188&stc=true&jpg444=true&jpgq=90&sp=68&sat=0.3&sigh=WNhMJET3OzVWjJ3hIvl0t2yuy4I)](https://www.youtube.com/watch?v=SaDDB5C_TfM&w=560&h=315)
-</div>
 Task space trajectory tracking using Impedance Control
+</div>
+
 
 ## Position Control
 ___
@@ -32,10 +33,12 @@ The project code can be downloaded [here.](https://github.com/karanchawla/theDum
 ## About Team
 <div style="text-align:center" markdown="1">
 ![alt text](https://raw.githubusercontent.com/karanchawla/TheDumbRobotArm/master/IMG_20170509_200526_984.jpg "Group Photo")
-</div>
 **The Team Photo with Prof. Daniel Block**
+</div>
 
-- Karan Chawla
-- Zhaoer Li 
-- Zhicaho Zhang
+| Group Members |               |
+| ------------- | ------------- |
+| Karan Chawla  |  Zhaoer Li    |
+| Zhicaho Zhang |               |
+
 
