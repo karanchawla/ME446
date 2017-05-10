@@ -33,3 +33,9 @@ The project code can be downloaded [here.](https://github.com/karanchawla/theDum
 <div style="text-align:center" markdown="1">
 ![alt text](https://raw.githubusercontent.com/karanchawla/TheDumbRobotArm/master/IMG_20170509_200526_984.jpg "Group Photo")
 </div>
+**The Team Photo with Prof. Daniel Block**
+
+- Karan Chawla
+- Zhaoer Li 
+- Zhicaho Zhang
+
