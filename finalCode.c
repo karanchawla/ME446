@@ -374,7 +374,6 @@ typedef struct pos
 	float x,y,z;
 	int mode;
 	float rot;
-	float velocity;
 } position_world;
 
 #define SLOW 15
@@ -411,36 +410,36 @@ typedef struct pos
 //Defining the trajectory for the whole problem
 #define WAYPOINTS 22
 position_world pos[WAYPOINTS]={
-		{7.35, 8.57, 12.8, ALLSTIFF ,0 , FAST+6},//Home
-		{HOLEX, HOLEY, 7.5, ALLSTIFF , 0 , 9},
-		{HOLEX, HOLEY, 5.1, ZSTIFF , 0 , 0},
-		{HOLEX, HOLEY, 10, ZSTIFF , 0 , FAST+3},
-		{7.35, 8.57, 10, ZSTIFF, 0 , FAST+3},
-		{11.0, 4.57, 9, ZSTIFF, 0 , FAST+3},
-		{11.0, 4.57, ZZDEPTH, ZSTIFF, 0 , FAST+3},
-		{LINE1START_X, LINE1START_Y, ZZDEPTH, YSTIFF, LINE1ROT , SLOW}, //Entering zigzag
-		{LINE1END_X, LINE1END_Y, ZZDEPTH, YSTIFF , 0, SLOW},
-		{LINE1END_X, LINE2START_Y, ZZDEPTH, XSTIFF, 0, SLOW},
-		{LINE2START_X, LINE2START_Y, ZZDEPTH, XSTIFF, LINE2ROT, SLOW},
-		{LINE2END_X, LINE2END_Y, ZZDEPTH, XSTIFF, 0, SLOW},
-		{11.91, 2.10, ZZDEPTH, XSTIFF, 27.12*PI/180, SLOW},
-		{11.65, 1.88, ZZDEPTH, XSTIFF, 41.3*PI/180, SLOW},
-		{11.55, 1.51, ZZDEPTH, YSTIFF, 22.7*PI/180, SLOW},
-		{LINE3START_X, LINE3START_Y, ZZDEPTH, YSTIFF, LINE3ROT, SLOW},
-		{LINE3END_X, LINE3END_Y, ZZDEPTH, YSTIFF, 0, FAST},
-		{EGG_X, EGG_Y, EGG_UP+1, ALLSTIFF, 0, FAST},
-		{EGG_X, EGG_Y, EGG_UP, EGG, 0, FAST},
-		{EGG_X, EGG_Y, EGG_DOWN, EGG, 0, 0},
-		{EGG_X, EGG_Y, EGG_DOWN, ALLSTIFF, 0, FAST},
-		{5.52, 0, 16.61, ALLSTIFF ,0 , 0}
+		{7.35, 8.57, 12.8, ALLSTIFF ,0},//Home
+		{HOLEX, HOLEY, 7.5, ALLSTIFF , 0},
+		{HOLEX, HOLEY, 5.1, ZSTIFF , 0},
+		{HOLEX, HOLEY, 10, ZSTIFF , 0},
+		{7.35, 8.57, 10, ZSTIFF, 0},
+		{11.0, 4.57, 9, ZSTIFF, 0},
+		{11.0, 4.57, ZZDEPTH, ZSTIFF},
+		{LINE1START_X, LINE1START_Y, ZZDEPTH, YSTIFF, LINE1ROT}, //Entering zigzag
+		{LINE1END_X, LINE1END_Y, ZZDEPTH, YSTIFF , 0},
+		{LINE1END_X, LINE2START_Y, ZZDEPTH, XSTIFF, 0},
+		{LINE2START_X, LINE2START_Y, ZZDEPTH, XSTIFF, LINE2ROT},
+		{LINE2END_X, LINE2END_Y, ZZDEPTH, XSTIFF,},
+		{11.91, 2.10, ZZDEPTH, XSTIFF, 27.12*PI/180},
+		{11.65, 1.88, ZZDEPTH, XSTIFF, 41.3*PI/180},
+		{11.55, 1.51, ZZDEPTH, YSTIFF, 22.7*PI/180},
+		{LINE3START_X, LINE3START_Y, ZZDEPTH, YSTIFF, LINE3ROT},
+		{LINE3END_X, LINE3END_Y, ZZDEPTH, YSTIFF, 0},
+		{EGG_X, EGG_Y, EGG_UP+1, ALLSTIFF, 0},
+		{EGG_X, EGG_Y, EGG_UP, EGG, 0},
+		{EGG_X, EGG_Y, EGG_DOWN, EGG, 0},
+		{EGG_X, EGG_Y, EGG_DOWN, ALLSTIFF, 0},
+		{5.52, 0, 16.61, ALLSTIFF ,0}
 };
 
 int i = 0;
 float vel = 0;
-float vel_high = 20;
-float vel_low = 18;
-float egg_punch_vel = 0.8;
-float factor = 0;
+float vel_high = 21
+float vel_low = 20
+float egg_punch_vel = 4.0
+float factor = 40
 
 //Auxilary method to set the gains for different parts of the trajectory
 static inline void set_gains(void)
@@ -518,8 +517,8 @@ static inline void set_gains(void)
 	return;
 }
 
-long long t_tot = 2000;
-long long t_start = 0;
+long long total_time = 2000;
+long long start_time = 0;
 long long t = 0;
 
 //Start and end points for following a straight line
@@ -535,8 +534,7 @@ float zb = 0;
 /*
 The main function refreshes motor angular velocity and all auxillary and trigonometry definitions for impedence control that relates to motor angles or motor angular velocities.
 Then a straight line following section is implemented enabling the end effector to track back and forth between one point to another in 3D space, which is done basically by defining desired motor angles and velocties every 1ms.
-Lastly we call controller and controllerUtility to implement impedence control. While the roboti arm is performing straight line following, its rotation matrix and PD gains can be tuned to reach various impedence settings, which
-is an ideal method for future line following challenges.
+Lastly we call controller and controllerUtility to implement impedence control.
 */
 void lab(float theta1motor, float theta2motor, float theta3motor, float *tau1, float *tau2, float *tau3, int error) {
 
@@ -562,21 +560,19 @@ void lab(float theta1motor, float theta2motor, float theta3motor, float *tau1, f
 
 	forwardKinematics();
 
-
 	if(pos[i].velocity==0)
 	{
-		t_tot = 1000;
-
+		total_time = 1000;// Wait for one second
 		desired[0] = pos[i].x;
 		desired[1] = pos[i].y;
 		desired[2] = pos[i].z;
-
 		desiredDot[0] = 0;
 		desiredDot[1] = 0;
 		desiredDot[2] = 0;
-		if (t > (t_tot + t_start))
+		
+		if (t > (total_time + start_time))
 		{
-			t_start = t;
+			start_time = t;
 			i++;
 		}
 
@@ -586,48 +582,41 @@ void lab(float theta1motor, float theta2motor, float theta3motor, float *tau1, f
 		xa = pos[i].x;
 		ya = pos[i].y;
 		za = pos[i].z;
-
 		xb = pos[i+1].x;
 		yb = pos[i+1].y;
 		zb = pos[i+1].z;
-
 		thetaz = pos[i].rot;
-
+		
 		float del_x = xb - xa;
 		float del_y = yb - ya;
 		float del_z = zb - za;
 
 		//Convert to ms and calculate required time
-		t_tot = 1000*(sqrt(del_x*del_x+del_y*del_y+del_z*del_z))/vel; //(pos[i].velocity);
-		if (t > (t_tot + t_start))
+		total_time = 1000*(sqrt(del_x*del_x+del_y*del_y+del_z*del_z))/vel; 
+		if (t > (total_time + start_time))
 		{
 
-			t_start = t;
+			start_time = t;
 			i++;
 		}
-		desired[0] = del_x * (t - t_start)/t_tot + xa;
-		desired[1] = del_y * (t - t_start)/t_tot + ya;
-		desired[2] = del_z * (t - t_start)/t_tot + za;
+		desired[0] = del_x * (t - start_time)/t_tot + xa;
+		desired[1] = del_y * (t - start_time)/t_tot + ya;
+		desired[2] = del_z * (t - start_time)/t_tot + za;
 
-		desiredDot[0] = del_x/(t_tot*0.001);
-		desiredDot[1] = del_y/(t_tot*0.001);
-		desiredDot[2] = del_z/(t_tot*0.001);
+		desiredDot[0] = del_x/(total_time*0.001);
+		desiredDot[1] = del_y/(total_time*0.001);
+		desiredDot[2] = del_z/(total_time*0.001);
 	}
 
 	t++;
-
-	//forwardKinematics(); // refresh task space coordinates values x,y,z using forwardKinematics with current motor angles inputs.
-
 	//Motor torque limitation(Max: 5 Min: -5)
 	//Task space Impedance control for the joints
-
 	controllerUtility();// call controllerUtility() to generate control effort of impedence control
-
+	
 	//call controller to add friction compensation to x,y,z accordingly.
 	*tau1 = Controller('x', theta1motor_dot);
 	*tau2 = Controller('y', theta2motor_dot);
 	*tau3 = Controller('z', theta3motor_dot);
-
 
 	// save past states
 	if ((mycount % 50) == 0) {
@@ -640,7 +629,6 @@ void lab(float theta1motor, float theta2motor, float theta3motor, float *tau1, f
 		else {
 			arrayindex++;
 		}
-
 	}
 
 	if ((mycount % 1000) == 0) {
